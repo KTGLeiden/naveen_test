@@ -2,43 +2,38 @@ package DayTwo;
 
 public class Account {
     private String accountHolder;
-    private String bankName ;
-    private String iban ;
-    private int balance ;
+    private String bankName;
+    private String iban;
+    private int balance;
 
-    Account(String accountHolder, String bankName, String iban, int balance ){
-
-        this.accountHolder = accountHolder ;
+    public Account(String accountHolder, String bankName, String iban, int balance) {
+        this.accountHolder = accountHolder;
         this.bankName = bankName;
         this.iban = iban;
         this.balance = balance;
     }
 
-    public void addMoney(int val){
-        this.balance += val;
-        System.out.println("An amount of " + val + " has been credited to your IBAN" + this.iban + " and the new balance is : " + this.balance);
+    public void addMoney(int amount) {
+        this.balance += amount;
+        System.out.println("An amount of " + amount + " has been credited to your IBAN" + this.iban
+                + " and the new balance is : " + this.balance);
     }
 
-    public void removeMoney(int val){
-        if(checkBalance(this.balance, val)){
-            this.balance -= val;
-            System.out.println("An amount of " + val + " has been debited from your IBAN" + this.iban + " and the new balance is : " + this.balance);
-        }
-        else{
-            System.out.println("You dont have Sufficient Balance for the requested withdrawal amount");
+    public void removeMoney(int amount) {
+        this.balance -= amount;
+        System.out.println("An amount of " + amount + " has been debited from your IBAN" + this.iban
+                + " and the new balance is : " + this.balance);
+    }
+
+    public void transferTo(Account to, int transval) {
+        if (to.checkBalance(transval)) {
+            to.addMoney(transval);
+            this.removeMoney(transval);
         }
     }
 
-    private boolean checkBalance(int balance, int val) {
-        return (balance >= val);
-    }
-
-
-    void transferTo(Account ac, int transval){
-        if (ac.checkBalance(ac.balance, transval)){
-            this.addMoney(transval);
-            ac.removeMoney(transval);
-        }
+    private boolean checkBalance(int amount) {
+        return balance >= amount;
     }
 
     public String getAccountHolder() {
